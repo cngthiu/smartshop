@@ -1,0 +1,17 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+insightface==0.7.3
+onnxruntime==1.18.1
+opencv-python-headless==4.10.0.84
+numpy==1.26.4
+pillow==10.4.0
+numpy==1.26.4
+pyzbar==0.1.9
+ultralytics==8.2.103
+torch>=2.1.0
+torchvision>=0.16.0
+open_clip_torch==2.24.0
+faiss-cpu==1.8.0
+pytesseract==0.3.13
+python-multipart
+orjson
