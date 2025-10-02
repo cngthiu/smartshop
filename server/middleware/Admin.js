@@ -1,3 +1,4 @@
+//server/middleware/Admin.js
 import UserModel from "../models/user.model.js"
 
 export const admin = async(request,response,next)=>{

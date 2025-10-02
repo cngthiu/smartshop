@@ -1,3 +1,5 @@
+//server/route/product.route.js
+
 import { Router } from 'express'
 import auth from '../middleware/auth.js'
 import { createProductController, deleteProductDetails, getProductByCategory, getProductByCategoryAndSubCategory, getProductController, getProductDetails, searchProduct, updateProductDetails } from '../controllers/product.controller.js'

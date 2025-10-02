@@ -1,3 +1,4 @@
+//server/controllers/uploadImage.controller.js
 import uploadImageClodinary from "../utils/uploadImageClodinary.js"
 
 const uploadImageController = async(request,response)=>{

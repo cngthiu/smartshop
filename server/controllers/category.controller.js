@@ -1,3 +1,4 @@
+//server/controllers/category.controller.js
 import CategoryModel from "../models/category.model.js";
 import SubCategoryModel from "../models/subCategory.model.js";
 import ProductModel from "../models/product.model.js";

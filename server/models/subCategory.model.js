@@ -1,3 +1,4 @@
+//server/models/subCategory.model.js
 import mongoose from "mongoose";
 
 const subCategorySchema = new mongoose.Schema({
