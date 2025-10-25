@@ -1,0 +1,60 @@
+{
+  "items": [
+    {
+      "reference_id": "vinamilk-fresh-milk-1l",
+      "reference_image": [
+        "MC_Milk_1.jpg",
+        "MC_Milk_2.jpg",
+        "MC_Milk_3.jpg",
+        "MC_Milk_4.jpg"
+      ],
+      "name": "Vinamilk Fresh Milk 1L",
+      "category": "Beverages",
+      "subCategory": "Milk & Dairy",
+      "unit": "1L carton",
+      "stock": 120,
+      "price": 32000,
+      "discount": 5,
+      "description": "Pasteurized fresh milk from Vinamilk, rich in calcium and vitamins A & D.",
+      "more_details": {
+        "brand": "Vinamilk",
+        "origin": "Vietnam"
+      },
+      "image": []
+    },
+    {
+      "reference_id": "chinsu-chili-sauce-270g",
+      "reference_image": "chinsu-chili-sauce-270g.jpg",
+      "name": "Chinsu Chili Sauce 270g",
+      "category": "Pantry",
+      "subCategory": "Sauce & Condiments",
+      "unit": "270g bottle",
+      "stock": 200,
+      "price": 18000,
+      "discount": 0,
+      "description": "Classic Vietnamese chili sauce from Chinsu, perfect for dipping and cooking.",
+      "more_details": {
+        "brand": "Chinsu",
+        "spice_level": "Medium"
+      },
+      "image": []
+    },
+    {
+      "reference_id": "orion-chocopie-original-12p",
+      "reference_image": "orion-chocopie-original-12p.jpg",
+      "name": "Orion ChocoPie Original 12P",
+      "category": "Snacks",
+      "subCategory": "Biscuits & Cakes",
+      "unit": "12 pack",
+      "stock": 85,
+      "price": 55000,
+      "discount": 10,
+      "description": "Soft marshmallow pies coated with chocolate. A favorite Korean snack.",
+      "more_details": {
+        "brand": "Orion",
+        "serving_suggestion": "Enjoy with tea or coffee"
+      },
+      "image": []
+    }
+  ]
+}

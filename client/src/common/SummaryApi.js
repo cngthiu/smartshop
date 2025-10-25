@@ -107,6 +107,10 @@ const SummaryApi = {
         url : "/api/product/delete-product",
         method : 'delete'
     },
+    autoCreateProductFromScan : {
+        url : "/api/product/auto-create-from-scan",
+        method : "post"
+    },
     searchProduct : {
         url : '/api/product/search-product',
         method : 'post'

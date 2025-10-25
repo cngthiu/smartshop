@@ -1,68 +1,82 @@
 //server/models/product.model.js
 import mongoose from "mongoose";
 
-const productSchema = new mongoose.Schema({
-    name : {
-        type : String,
+const productSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String
     },
-    image : {
-        type : Array,
-        default : []
+    recognitionId: {
+      type: String,
+      index: true,
+      sparse: true,
+      unique: true
     },
-    category : [
-        {
-            type : mongoose.Schema.ObjectId,
-            ref : 'category'
-        }
+    image: {
+      type: Array,
+      default: []
+    },
+    category: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "category"
+      }
     ],
-    subCategory : [
-        {
-            type : mongoose.Schema.ObjectId,
-            ref : 'subCategory'
-        }
+    subCategory: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: "subCategory"
+      }
     ],
-    unit : {
-        type : String,
-        default : ""
+    unit: {
+      type: String,
+      default: ""
     },
-    stock : {
-        type : Number,
-        default : null
+    stock: {
+      type: Number,
+      default: null
     },
-    price : {
-        type : Number,
-        defualt : null
+    price: {
+      type: Number,
+      defualt: null
     },
-    discount : {
-        type : Number,
-        default : null
+    discount: {
+      type: Number,
+      default: null
     },
-    description : {
-        type : String,
-        default : ""
+    description: {
+      type: String,
+      default: ""
     },
-    more_details : {
-        type : Object,
-        default : {}
+    more_details: {
+      type: Object,
+      default: {}
     },
-    publish : {
-        type : Boolean,
-        default : true
+    autoCreated: {
+      type: Boolean,
+      default: false
+    },
+    publish: {
+      type: Boolean,
+      default: true
     }
-},{
-    timestamps : true
-})
+  },
+  {
+    timestamps: true
+  }
+)
 
-//create a text index
-productSchema.index({
-    name  : "text",
-    description : 'text'
-},{
-    name : 10,
-    description : 5
-})
+productSchema.index(
+  {
+    name: "text",
+    description: "text"
+  },
+  {
+    name: 10,
+    description: 5
+  }
+)
 
-
-const ProductModel = mongoose.model('product',productSchema)
+const ProductModel = mongoose.model("product", productSchema)
 
 export default ProductModel

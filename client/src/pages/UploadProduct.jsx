@@ -1,19 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadImage from '../utils/UploadImage';
 import Loading from '../components/Loading';
 import ViewImage from '../components/ViewImage';
 import { MdDelete } from "react-icons/md";
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { IoClose } from "react-icons/io5";
 import AddFieldComponent from '../components/AddFieldComponent';
 import Axios from '../utils/Axios';
 import SummaryApi from '../common/SummaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
 import successAlert from '../utils/SuccessAlert';
-import { useEffect } from 'react';
+import { setAllCategory, setAllSubCategory } from '../store/productSlice';
 
 const UploadProduct = () => {
+  const dispatch = useDispatch()
   const [data,setData] = useState({
       name : "",
       image : [],
@@ -24,7 +25,7 @@ const UploadProduct = () => {
       price : "",
       discount : "",
       description : "",
-      more_details : {},
+      more_details : {}
   })
   const [imageLoading,setImageLoading] = useState(false)
   const [ViewImageURL,setViewImageURL] = useState("")
@@ -35,7 +36,12 @@ const UploadProduct = () => {
 
   const [openAddField,setOpenAddField] = useState(false)
   const [fieldName,setFieldName] = useState("")
-
+  const [isCameraOpen,setIsCameraOpen] = useState(false)
+  const [autoScanLoading,setAutoScanLoading] = useState(false)
+  const [cameraError,setCameraError] = useState("")
+  const videoRef = useRef(null)
+  const canvasRef = useRef(null)
+  const streamRef = useRef(null)
 
   const handleChange = (e)=>{
     const { name, value} = e.target 
@@ -48,6 +54,177 @@ const UploadProduct = () => {
     })
   }
 
+  const stopCameraStream = ()=>{
+    const currentStream = streamRef.current
+    if(currentStream){
+      currentStream.getTracks().forEach(track => track.stop())
+      streamRef.current = null
+    }
+    if(videoRef.current){
+      videoRef.current.srcObject = null
+    }
+  }
+
+  useEffect(()=>{
+    return ()=>{
+      stopCameraStream()
+    }
+  },[])
+
+  useEffect(()=>{
+    const enableCamera = async()=>{
+      if(!isCameraOpen){
+        stopCameraStream()
+        return
+      }
+
+      if(typeof navigator === "undefined" || !navigator.mediaDevices?.getUserMedia){
+        setCameraError("Trình duyệt không hỗ trợ camera")
+        setIsCameraOpen(false)
+        return
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video : { facingMode : "environment" },
+          audio : false
+        })
+        streamRef.current = stream
+        if(videoRef.current){
+          videoRef.current.srcObject = stream
+        }
+      } catch (error) {
+        setCameraError(error?.message || "Không thể truy cập camera")
+        setIsCameraOpen(false)
+      }
+    }
+
+    enableCamera()
+  },[isCameraOpen])
+
+  const handleOpenCamera = ()=>{
+    if(typeof navigator === "undefined" || !navigator.mediaDevices?.getUserMedia){
+      setCameraError("Trình duyệt không hỗ trợ camera")
+      return
+    }
+    setCameraError("")
+    setIsCameraOpen(true)
+  }
+
+  const handleCloseCamera = ()=>{
+    setIsCameraOpen(false)
+    setCameraError("")
+    stopCameraStream()
+  }
+
+  const captureFrameBlob = ()=>{
+    return new Promise((resolve,reject)=>{
+      const video = videoRef.current
+      const canvas = canvasRef.current
+
+      if(!video || !canvas){
+        reject(new Error("Camera chưa sẵn sàng"))
+        return
+      }
+
+      if(!video.videoWidth || !video.videoHeight){
+        reject(new Error("Đang khởi tạo camera, vui lòng thử lại"))
+        return
+      }
+
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+      const ctx = canvas.getContext("2d")
+      ctx.drawImage(video,0,0,canvas.width,canvas.height)
+
+      canvas.toBlob((blob)=>{
+        if(blob){
+          resolve(blob)
+        }else{
+          reject(new Error("Không thể chụp khung hình"))
+        }
+      },"image/jpeg",0.9)
+    })
+  }
+
+  const hydrateFromScan = (payload)=>{
+    const product = payload?.product || {}
+    const detectedCategory = payload?.category
+    const detectedSubCategory = payload?.subCategory
+
+    const normalizedCategory = Array.isArray(product?.category) && product.category.length
+      ? product.category
+      : detectedCategory ? [detectedCategory] : []
+
+    const normalizedSubCategory = Array.isArray(product?.subCategory) && product.subCategory.length
+      ? product.subCategory
+      : detectedSubCategory ? [detectedSubCategory] : []
+
+    setData((prev)=>{
+      return{
+        ...prev,
+        name : product?.name || "",
+        image : Array.isArray(product?.image) ? product.image : (product?.image ? [product.image] : []),
+        category : normalizedCategory,
+        subCategory : normalizedSubCategory,
+        unit : product?.unit || "",
+        stock : typeof product?.stock === "number" ? product.stock : "",
+        price : typeof product?.price === "number" ? product.price : "",
+        discount : typeof product?.discount === "number" ? product.discount : "",
+        description : product?.description || "",
+        more_details : product?.more_details || {}
+      }
+    })
+    setSelectCategory("")
+    setSelectSubCategory("")
+
+    if(detectedCategory && !allCategory.some(cat => cat._id === detectedCategory._id)){
+      const nextCategories = [...allCategory,detectedCategory].sort((a,b)=>a.name.localeCompare(b.name))
+      dispatch(setAllCategory(nextCategories))
+    }
+
+    if(detectedSubCategory && !allSubCategory.some(sub => sub._id === detectedSubCategory._id)){
+      const nextSubCategories = [...allSubCategory,detectedSubCategory].sort((a,b)=>a.name.localeCompare(b.name))
+      dispatch(setAllSubCategory(nextSubCategories))
+    }
+  }
+
+  const handleAutoCreateFromCamera = async()=>{
+    try {
+      setAutoScanLoading(true)
+      setCameraError("")
+      const blob = await captureFrameBlob()
+      const formData = new FormData()
+      formData.append("frame",blob,"product-scan.jpg")
+
+      const response = await Axios({
+        ...SummaryApi.autoCreateProductFromScan,
+        data : formData,
+        headers : {
+          "Content-Type" : "multipart/form-data"
+        }
+      })
+
+      const { data : responseData } = response
+
+      if(responseData.success){
+        hydrateFromScan(responseData?.data)
+        successAlert(responseData.message || "Nhận diện sản phẩm thành công")
+        handleCloseCamera()
+      }else{
+        setCameraError(responseData?.message || "Không nhận diện được sản phẩm")
+      }
+    } catch (error) {
+      if(error?.response?.data?.message){
+        setCameraError(error.response.data.message)
+      }else{
+        setCameraError(error?.message || "Đã xảy ra lỗi")
+      }
+      AxiosToastError(error)
+    } finally {
+      setAutoScanLoading(false)
+    }
+  }
   const handleUploadImage = async(e)=>{
     const file = e.target.files[0]
 
@@ -132,7 +309,7 @@ const UploadProduct = () => {
             price : "",
             discount : "",
             description : "",
-            more_details : {},
+            more_details : {}
           })
 
       }
@@ -153,6 +330,51 @@ const UploadProduct = () => {
         </div>
         <div className='grid p-3'>
             <form className='grid gap-4' onSubmit={handleSubmit}>
+                <div className='grid gap-2 bg-white border rounded p-3 shadow-sm'>
+                  <div className='flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between'>
+                    <div>
+                      <p className='font-semibold'>Nhận diện sản phẩm qua camera</p>
+                      <p className='text-sm text-neutral-500'>Chụp bao bì có mã vạch để tự động điền thông tin.</p>
+                    </div>
+                    <button
+                      type='button'
+                      onClick={isCameraOpen ? handleCloseCamera : handleOpenCamera}
+                      className='bg-primary-200 text-white px-3 py-2 rounded text-sm hover:bg-primary-300 transition'
+                    >
+                      {isCameraOpen ? "Đóng camera" : "Bật camera"}
+                    </button>
+                  </div>
+                  {cameraError && (
+                    <p className='text-sm text-red-600'>{cameraError}</p>
+                  )}
+                  {isCameraOpen && (
+                    <div className='grid gap-3'>
+                      <video
+                        ref={videoRef}
+                        autoPlay
+                        playsInline
+                        muted
+                        className='w-full max-h-64 bg-black rounded border object-cover'
+                      />
+                      <button
+                        type='button'
+                        onClick={handleAutoCreateFromCamera}
+                        disabled={autoScanLoading}
+                        className='bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed text-white px-4 py-2 rounded flex items-center justify-center gap-2'
+                      >
+                        {autoScanLoading ? (
+                          <>
+                            <Loading/>
+                            <span>Đang nhận diện...</span>
+                          </>
+                        ) : (
+                          <span>Chụp &amp; Tự động tạo</span>
+                        )}
+                      </button>
+                    </div>
+                  )}
+                  <canvas ref={canvasRef} className='hidden'/>
+                </div>
                 <div className='grid gap-1'>
                   <label htmlFor='name' className='font-medium'>Name</label>
                   <input 

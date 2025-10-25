@@ -1,57 +1,212 @@
 //server/controllers/product.controller.js
 import ProductModel from "../models/product.model.js";
+import CategoryModel from "../models/category.model.js";
+import SubCategoryModel from "../models/subCategory.model.js";
+import { scanProductFrame } from "../utils/productScanClient.js";
 
-export const createProductController = async(request,response)=>{
-    try {
-        const { 
-            name ,
-            image ,
-            category,
-            subCategory,
-            unit,
-            stock,
-            price,
-            discount,
-            description,
-            more_details,
-        } = request.body 
+export const createProductController = async (request, response) => {
+  try {
+    const {
+      name,
+      image,
+      category,
+      subCategory,
+      unit,
+      stock,
+      price,
+      discount,
+      description,
+      more_details
+    } = request.body
 
-        if(!name || !image[0] || !category[0] || !subCategory[0] || !unit || !price || !description ){
-            return response.status(400).json({
-                message : "Enter required fields",
-                error : true,
-                success : false
-            })
-        }
-
-        const product = new ProductModel({
-            name ,
-            image ,
-            category,
-            subCategory,
-            unit,
-            stock,
-            price,
-            discount,
-            description,
-            more_details,
-        })
-        const saveProduct = await product.save()
-
-        return response.json({
-            message : "Product Created Successfully",
-            data : saveProduct,
-            error : false,
-            success : true
-        })
-
-    } catch (error) {
-        return response.status(500).json({
-            message : error.message || error,
-            error : true,
-            success : false
-        })
+    if (
+      !name ||
+      !image?.[0] ||
+      !category?.[0] ||
+      !subCategory?.[0] ||
+      !unit ||
+      !price ||
+      !description
+    ) {
+      return response.status(400).json({
+        message: "Enter required fields",
+        error: true,
+        success: false
+      })
     }
+
+    const product = new ProductModel({
+      name,
+      image,
+      category,
+      subCategory,
+      unit,
+      stock,
+      price,
+      discount,
+      description,
+      more_details,
+      autoCreated: false
+    })
+    const saveProduct = await product.save()
+
+    return response.json({
+      message: "Product Created Successfully",
+      data: saveProduct,
+      error: false,
+      success: true
+    })
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false
+    })
+  }
+}
+
+export const autoCreateProductFromScan = async (request, response) => {
+  try {
+    const frame = request.file
+
+    if (!frame) {
+      return response.status(400).json({
+        message: "Vui lòng gửi 1 ảnh từ camera (field: frame)",
+        error: true,
+        success: false
+      })
+    }
+
+    const scanResult = await scanProductFrame(
+      frame.buffer,
+      frame.mimetype || "image/jpeg"
+    )
+
+    if (!scanResult?.success || !scanResult?.product) {
+      return response.status(400).json({
+        message:
+          scanResult?.message || "Không nhận diện được sản phẩm từ ảnh",
+        error: true,
+        success: false,
+        data: scanResult
+      })
+    }
+
+    const productPayload = scanResult.product
+    const categoryName = productPayload?.category?.trim()
+    const subCategoryName = productPayload?.subCategory?.trim()
+
+    if (!categoryName) {
+      return response.status(400).json({
+        message: "Thiếu thông tin category từ kết quả nhận diện",
+        error: true,
+        success: false,
+        data: scanResult
+      })
+    }
+
+    const recognitionId =
+      productPayload?.referenceId || productPayload?.recognitionId
+
+    if (!recognitionId) {
+      return response.status(400).json({
+        message: "Thiếu referenceId cho sản phẩm đã nhận diện",
+        error: true,
+        success: false,
+        data: scanResult
+      })
+    }
+
+    let categoryDoc = await CategoryModel.findOne({ name: categoryName })
+    if (!categoryDoc) {
+      categoryDoc = await CategoryModel.create({
+        name: categoryName,
+        image: Array.isArray(productPayload?.image)
+          ? productPayload.image[0] || ""
+          : ""
+      })
+    }
+
+    let subCategoryDoc = null
+    if (subCategoryName) {
+      subCategoryDoc = await SubCategoryModel.findOne({
+        name: subCategoryName
+      })
+      if (!subCategoryDoc) {
+        subCategoryDoc = await SubCategoryModel.create({
+          name: subCategoryName,
+          image: Array.isArray(productPayload?.image)
+            ? productPayload.image[0] || ""
+            : "",
+          category: [categoryDoc._id]
+        })
+      } else {
+        if (!Array.isArray(subCategoryDoc.category)) {
+          subCategoryDoc.category = []
+        }
+        if (!subCategoryDoc.category.some((id) => id.equals(categoryDoc._id))) {
+          subCategoryDoc.category.push(categoryDoc._id)
+          await subCategoryDoc.save()
+        }
+      }
+    }
+
+    const imageList = Array.isArray(productPayload?.image)
+      ? productPayload.image
+      : productPayload?.image
+      ? [productPayload.image]
+      : []
+
+    const updatePayload = {
+      name: productPayload?.name || recognitionId,
+      image: imageList,
+      category: [categoryDoc._id],
+      subCategory: subCategoryDoc ? [subCategoryDoc._id] : [],
+      unit: productPayload?.unit || "",
+      stock:
+        typeof productPayload?.stock === "number" ? productPayload.stock : 0,
+      price:
+        typeof productPayload?.price === "number" ? productPayload.price : 0,
+      discount:
+        typeof productPayload?.discount === "number"
+          ? productPayload.discount
+          : 0,
+      description: productPayload?.description || "",
+      more_details: productPayload?.more_details || {},
+      recognitionId,
+      autoCreated: true,
+      publish: true
+    }
+
+    const product = await ProductModel.findOneAndUpdate(
+      { recognitionId },
+      { $set: updatePayload },
+      {
+        upsert: true,
+        new: true,
+        runValidators: true,
+        setDefaultsOnInsert: true
+      }
+    ).populate("category subCategory")
+
+    return response.json({
+      message: "Nhận diện và tạo sản phẩm thành công",
+      error: false,
+      success: true,
+      data: {
+        product,
+        category: categoryDoc,
+        subCategory: subCategoryDoc,
+        confidence: scanResult?.confidence
+      }
+    })
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false
+    })
+  }
 }
 
 export const getProductController = async(request,response)=>{
