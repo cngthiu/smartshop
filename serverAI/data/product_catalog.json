@@ -55,6 +55,28 @@
         "serving_suggestion": "Enjoy with tea or coffee"
       },
       "image": []
+    },
+    {
+      "reference_id": "olon-tea-plus-450ml",
+      "reference_image": [
+        "TeaPlus_1.jpg",
+        "TeaPlus_2.jpg",
+        "TeaPlus_3.jpg",
+        "TeaPlus_4.jpg"
+      ],
+      "name": "Trà Olong Tea Plus",
+      "category": "Drinks",
+      "subCategory": "Water",
+      "unit": "12 pack",
+      "stock": 6,
+      "price": 12000,
+      "discount": 10,
+      "description": "Soft marshmallow pies coated with chocolate. A favorite Korean snack.",
+      "more_details": {
+        "brand": "Orion",
+        "serving_suggestion": "Enjoy with tea or coffee"
+      },
+      "image": []
     }
   ]
 }
