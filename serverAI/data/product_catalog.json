@@ -9,10 +9,10 @@
         "MC_Milk_4.jpg"
       ],
       "name": "Vinamilk Fresh Milk 1L",
-      "category": "Beverages",
-      "subCategory": "Milk & Dairy",
-      "unit": "1L carton",
-      "stock": 120,
+      "category": "Sữa các loại",
+      "subCategory": "Sữa tươi",
+      "unit": "1 Lốc",
+      "stock": 10,
       "price": 32000,
       "discount": 5,
       "description": "Pasteurized fresh milk from Vinamilk, rich in calcium and vitamins A & D.",
@@ -23,36 +23,34 @@
       "image": []
     },
     {
-      "reference_id": "chinsu-chili-sauce-270g",
-      "reference_image": "chinsu-chili-sauce-270g.jpg",
-      "name": "Chinsu Chili Sauce 270g",
-      "category": "Pantry",
-      "subCategory": "Sauce & Condiments",
-      "unit": "270g bottle",
-      "stock": 200,
-      "price": 18000,
+      "reference_id": "revive-chanh-muoi-500ml",
+      "reference_image": ["revive.jpeg", "revive2.jpeg"],
+      "name": "Revive Chanh Muối 500ml",
+      "category": "Bia, nước giải khát",
+      "subCategory": "Nước ngọt",
+      "unit": "1 Chai",
+      "stock": 20,
+      "price": 12000,
       "discount": 0,
-      "description": "Classic Vietnamese chili sauce from Chinsu, perfect for dipping and cooking.",
+      "description": "Nước chanh muốimới",
       "more_details": {
-        "brand": "Chinsu",
-        "spice_level": "Medium"
+        "brand": "Revive"
       },
-      "image": []
+      "image": ["revive.jpeg"]
     },
     {
       "reference_id": "orion-chocopie-original-12p",
       "reference_image": "orion-chocopie-original-12p.jpg",
       "name": "Orion ChocoPie Original 12P",
-      "category": "Snacks",
-      "subCategory": "Biscuits & Cakes",
-      "unit": "12 pack",
+      "category": "Bánh kẹo các loại",
+      "subCategory": "Snack",
+      "unit": "12 gói",
       "stock": 85,
       "price": 55000,
       "discount": 10,
-      "description": "Soft marshmallow pies coated with chocolate. A favorite Korean snack.",
+      "description": "banh chocopie ngon bổ rẻ",
       "more_details": {
-        "brand": "Orion",
-        "serving_suggestion": "Enjoy with tea or coffee"
+        "brand": "Orion"
       },
       "image": []
     },
@@ -65,18 +63,35 @@
         "TeaPlus_4.jpg"
       ],
       "name": "Trà Olong Tea Plus",
-      "category": "Drinks",
-      "subCategory": "Water",
-      "unit": "12 pack",
+      "category": "Bia, nước giải khát",
+      "subCategory": "Nước ngọt",
+      "unit": "12 Chai",
       "stock": 6,
       "price": 12000,
       "discount": 10,
-      "description": "Soft marshmallow pies coated with chocolate. A favorite Korean snack.",
+      "description": "1 Thùng 12 cchai olong tea plus.",
       "more_details": {
-        "brand": "Orion",
-        "serving_suggestion": "Enjoy with tea or coffee"
+        "brand": "Orion"
       },
-      "image": []
+      "image": ["TeaPlus_1.jpg"]
+    },
+    {
+      "reference_id": "aquafina-50ml",
+      "reference_image": [
+        "aqua_0.jpg",
+        "aqua_1.jpg",
+        "aqua_2.jpg",
+        "aqua_3.jpg"
+      ],
+      "name": "Aquafina 500ml",
+      "category": "Bia, nước giải khát",
+      "subCategory": "Nước suối",
+      "unit": "1 Thùng",
+      "stock": 6,
+      "price": 120000,
+      "discount": 10,
+      "description": "Aquafina 500ml 1 thùng 24 chai ",
+      "image": ["aqua_0.jpg"]
     }
   ]
 }

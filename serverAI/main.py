@@ -299,7 +299,7 @@ def _crop_with_detector(image: np.ndarray) -> np.ndarray:
 
     # YOLOv8 returns boxes.xyxy as tensor on device
     boxes = getattr(results[0], "boxes", None)
-    if boxes is None or boxes.numel() == 0:
+    if boxes is None or boxes.data is None or len(boxes.data) == 0:
         return image
 
     confs = boxes.conf.cpu().numpy()
