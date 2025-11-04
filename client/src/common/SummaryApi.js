@@ -158,6 +158,10 @@ const SummaryApi = {
     getOrderItems : {
         url : '/api/order/order-list',
         method : 'get'
+    },
+    mealAdvisor : {
+        url : "/api/chatbot/meal-advice",
+        method : "post"
     }
 }
 

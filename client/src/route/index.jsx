@@ -23,6 +23,7 @@ import CartMobile from "../pages/CartMobile";
 import CheckoutPage from "../pages/CheckoutPage";
 import Success from "../pages/Success";
 import Cancel from "../pages/Cancel";
+import MealAdvisor from "../pages/MealAdvisor";
 
 const router = createBrowserRouter([
     {
@@ -94,6 +95,10 @@ const router = createBrowserRouter([
                         element : <AdminPermision><ProductAdmin/></AdminPermision>
                     }
                 ]
+            },
+            {
+                path : "meal-advisor",
+                element : <MealAdvisor/>
             },
             {
                 path : ":category",

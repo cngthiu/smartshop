@@ -1,6 +1,24 @@
 {
   "items": [
     {
+      "reference_id": "aquafina-50ml",
+      "reference_image": [
+        "aqua_0.jpg",
+        "aqua_1.jpg",
+        "aqua_2.jpg",
+        "aqua_3.jpg"
+      ],
+      "name": "Aquafina 500ml",
+      "category": "Bia, nước giải khát",
+      "subCategory": "Nước suối",
+      "unit": "1 Thùng",
+      "stock": 6,
+      "price": 120000,
+      "discount": 10,
+      "description": "Aquafina 500ml 1 thùng 24 chai ",
+      "image": ["/media/congthieu/ubuntu_data/SmartShop/serverAI/data/reference_images/aqua_0.jpeg"]
+    },
+    {
       "reference_id": "vinamilk-fresh-milk-1l",
       "reference_image": [
         "MC_Milk_1.jpg",
@@ -20,7 +38,7 @@
         "brand": "Vinamilk",
         "origin": "Vietnam"
       },
-      "image": []
+      "image": ["serverAI/data/reference_images/MC_Milk_1.jpg"]
     },
     {
       "reference_id": "revive-chanh-muoi-500ml",
@@ -36,7 +54,7 @@
       "more_details": {
         "brand": "Revive"
       },
-      "image": ["revive.jpeg"]
+      "image": ["serverAI/data/reference_images/revive.jpeg"]
     },
     {
       "reference_id": "orion-chocopie-original-12p",
@@ -74,24 +92,6 @@
         "brand": "Orion"
       },
       "image": ["TeaPlus_1.jpg"]
-    },
-    {
-      "reference_id": "aquafina-50ml",
-      "reference_image": [
-        "aqua_0.jpg",
-        "aqua_1.jpg",
-        "aqua_2.jpg",
-        "aqua_3.jpg"
-      ],
-      "name": "Aquafina 500ml",
-      "category": "Bia, nước giải khát",
-      "subCategory": "Nước suối",
-      "unit": "1 Thùng",
-      "stock": 6,
-      "price": 120000,
-      "discount": 10,
-      "description": "Aquafina 500ml 1 thùng 24 chai ",
-      "image": ["aqua_0.jpg"]
     }
   ]
 }

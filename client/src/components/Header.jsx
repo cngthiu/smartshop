@@ -96,6 +96,7 @@ const Header = () => {
 
                                       {/**Desktop**/}
                                     <div className='hidden lg:flex  items-center gap-10'>
+                                        <Link to={'/meal-advisor'} className='text-lg hover:text-primary-200 text-neutral-700'>Meal Advisor</Link>
                                         {
                                             user?._id ? (
                                                 <div className='relative'>
