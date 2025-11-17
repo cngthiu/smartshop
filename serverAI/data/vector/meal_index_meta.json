@@ -1,0 +1,105 @@
+{
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "recipes": [
+    {
+      "id": "trang-mieng-nho-sua",
+      "name": "Tráng miệng nho sữa",
+      "description": "Kết hợp nho mẫu đơn tươi cùng sữa Vinamilk không đường cho bữa nhẹ healthy.",
+      "tags": [
+        "healthy",
+        "dessert"
+      ],
+      "diet": [
+        "vegetarian"
+      ],
+      "prep_time": 5,
+      "budget": 150000,
+      "popularity": 0.7,
+      "freshness": 0.9,
+      "promo": false,
+      "ingredients": [
+        {
+          "reference_id": "2-hop-nho-mau-on-noi-ia-trung-500g-tuoi-ngon",
+          "name": "Nho mẫu đơn"
+        },
+        {
+          "reference_id": "sttt-vinamilk-dan-bo-kd-1l-thung",
+          "name": "Sữa không đường Vinamilk"
+        }
+      ],
+      "allergens": [
+        "sữa"
+      ],
+      "instructions": [
+        "Rửa nho, để lạnh.",
+        "Rót sữa ra ly và thưởng thức cùng nho."
+      ]
+    },
+    {
+      "id": "combo-nuoc-khoang-detox",
+      "name": "Combo nước khoáng detox",
+      "description": "Luân phiên nước khoáng và Sting vàng giúp bổ sung khoáng lẫn năng lượng nhẹ.",
+      "tags": [
+        "đồ uống",
+        "detox"
+      ],
+      "diet": [
+        "vegan"
+      ],
+      "prep_time": 2,
+      "budget": 120000,
+      "popularity": 0.5,
+      "freshness": 0.8,
+      "promo": true,
+      "ingredients": [
+        {
+          "reference_id": "6-chai-nuoc-khoang-vinh-hao-500ml-gia-tot-tai-bach-hoa-xanh",
+          "name": "Nước khoáng Vĩnh Hảo"
+        },
+        {
+          "reference_id": "nuoc-tang-luc-sting-vang-loc-6-lon-330ml",
+          "name": "Sting vàng"
+        }
+      ],
+      "allergens": [],
+      "instructions": [
+        "Ướp lạnh trước 1 giờ, uống xen kẽ mỗi khi cần giải nhiệt."
+      ]
+    },
+    {
+      "id": "tieccuoi-tuan-giai-khat",
+      "name": "Tiệc cuối tuần giải khát",
+      "description": "Bộ ba Pepsi - 7Up - Dasani cho những buổi tụ họp gia đình hoặc team building.",
+      "tags": [
+        "gia đình",
+        "party"
+      ],
+      "diet": [
+        "flex"
+      ],
+      "prep_time": 10,
+      "budget": 320000,
+      "popularity": 0.85,
+      "freshness": 0.7,
+      "promo": false,
+      "ingredients": [
+        {
+          "reference_id": "thung-pepsi-pet-24chai",
+          "name": "Pepsi PET"
+        },
+        {
+          "reference_id": "6-lon-nuoc-ngot-soda-chanh-7-up-320ml",
+          "name": "7Up"
+        },
+        {
+          "reference_id": "nuoc-suoi-khoang/24-chai-nuoc-tinh-khiet-dasani-500ml",
+          "name": "Dasani"
+        }
+      ],
+      "allergens": [],
+      "instructions": [
+        "Ướp lạnh toàn bộ trước khi dùng, chuẩn bị thêm đá viên."
+      ]
+    }
+  ]
+}

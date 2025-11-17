@@ -209,6 +209,39 @@ export const autoCreateProductFromScan = async (request, response) => {
   }
 }
 
+export const getProductsByReferenceId = async (request, response) => {
+  try {
+    const { referenceIds } = request.body || {}
+
+    if (!Array.isArray(referenceIds) || referenceIds.length === 0) {
+      return response.status(400).json({
+        message: "referenceIds phải là một mảng chứa ít nhất 1 phần tử",
+        error: true,
+        success: false
+      })
+    }
+
+    const products = await ProductModel.find({
+      recognitionId: { $in: referenceIds }
+    })
+      .populate("category")
+      .populate("subCategory")
+
+    return response.json({
+      message: "Lấy thông tin sản phẩm theo referenceId thành công",
+      data: products,
+      error: false,
+      success: true
+    })
+  } catch (error) {
+    return response.status(500).json({
+      message: error.message || error,
+      error: true,
+      success: false
+    })
+  }
+}
+
 export const getProductController = async(request,response)=>{
     try {
         

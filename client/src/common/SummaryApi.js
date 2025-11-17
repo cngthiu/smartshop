@@ -162,6 +162,10 @@ const SummaryApi = {
     mealAdvisor : {
         url : "/api/chatbot/meal-advice",
         method : "post"
+    },
+    mealAdvisorFeedback : {
+        url : "/api/chatbot/meal-advice/feedback",
+        method : "post"
     }
 }
 

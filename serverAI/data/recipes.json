@@ -1,0 +1,129 @@
+[
+  {
+    "id": "ga-xao-sa-ot",
+    "name": "Gà xào sả ớt",
+    "description": "Ức gà xào thơm sả, cay nhẹ, hợp cho bữa cơm gia đình vào ngày se lạnh.",
+    "tags": ["mặn", "gia đình"],
+    "diet": ["high-protein"],
+    "prep_time": 25,
+    "budget": 180000,
+    "popularity": 0.82,
+    "freshness": 0.65,
+    "promo": false,
+    "ingredients": [
+      {"reference_id": "uc-ga-ta-1kg", "name": "Ức gà"},
+      {"reference_id": "sa-cay-50g", "name": "Sả cây"},
+      {"reference_id": "ot-hiem-20g", "name": "Ớt hiểm"}
+    ],
+    "allergens": [],
+    "instructions": [
+      "Sơ chế ức gà, ướp với sả băm, ớt, nước mắm.",
+      "Xào gà với lửa lớn 5-7 phút, thêm chút nước để gà mềm.",
+      "Nêm lại, thêm lá chanh nếu thích."
+    ]
+  },
+  {
+    "id": "salad-ca-chua-pho-mai",
+    "name": "Salad cà chua phô mai",
+    "description": "Salad nhanh gọn với cà chua, xà lách và phô mai mozzarella béo nhẹ.",
+    "tags": ["healthy", "salad"],
+    "diet": ["vegetarian"],
+    "prep_time": 10,
+    "budget": 110000,
+    "popularity": 0.68,
+    "freshness": 0.9,
+    "promo": true,
+    "ingredients": [
+      {"reference_id": "ca-chua-vietgap-500g", "name": "Cà chua"},
+      {"reference_id": "rau-xa-lach-300g", "name": "Xà lách"},
+      {"reference_id": "pho-mai-mozerella-200g", "name": "Phô mai mozzarella"}
+    ],
+    "allergens": ["sữa"],
+    "instructions": [
+      "Rửa và để ráo rau.",
+      "Cắt cà chua múi cau, phô mai lát.",
+      "Trộn với dầu ô liu, muối tiêu nhẹ."
+    ]
+  },
+  {
+    "id": "nuoc-ep-detox",
+    "name": "Nước ép detox táo kale",
+    "description": "Thức uống thanh lọc từ táo xanh, cải kale và chanh vàng.",
+    "tags": ["đồ uống", "detox"],
+    "diet": ["vegan"],
+    "prep_time": 8,
+    "budget": 160000,
+    "popularity": 0.6,
+    "freshness": 0.95,
+    "promo": false,
+    "ingredients": [
+      {"reference_id": "tao-xanh-my-1kg", "name": "Táo xanh"},
+      {"reference_id": "kale-huu-co-300g", "name": "Cải kale"},
+      {"reference_id": "chanh-vang-100g", "name": "Chanh vàng"}
+    ],
+    "allergens": [],
+    "instructions": [
+      "Cắt nhỏ táo, kale, bỏ vào máy ép.",
+      "Vắt chanh vàng vào sau cùng, khuấy nhẹ.",
+      "Thêm đá viên, dùng ngay."
+    ]
+  },
+  {
+    "id": "trang-mieng-nho-sua",
+    "name": "Tráng miệng nho sữa",
+    "description": "Kết hợp nho mẫu đơn tươi cùng sữa Vinamilk không đường cho bữa nhẹ healthy.",
+    "tags": ["healthy", "dessert"],
+    "diet": ["vegetarian"],
+    "prep_time": 5,
+    "budget": 150000,
+    "popularity": 0.7,
+    "freshness": 0.9,
+    "promo": false,
+    "ingredients": [
+      {"reference_id": "2-hop-nho-mau-on-noi-ia-trung-500g-tuoi-ngon", "name": "Nho mẫu đơn"},
+      {"reference_id": "sttt-vinamilk-dan-bo-kd-1l-thung", "name": "Sữa không đường Vinamilk"}
+    ],
+    "allergens": ["sữa"],
+    "instructions": [
+      "Rửa nho, để lạnh.",
+      "Rót sữa ra ly và thưởng thức cùng nho."
+    ]
+  },
+  {
+    "id": "combo-nuoc-khoang-detox",
+    "name": "Combo nước khoáng detox",
+    "description": "Luân phiên nước khoáng và Sting vàng giúp bổ sung khoáng lẫn năng lượng nhẹ.",
+    "tags": ["đồ uống", "detox"],
+    "diet": ["vegan"],
+    "prep_time": 2,
+    "budget": 120000,
+    "popularity": 0.5,
+    "freshness": 0.8,
+    "promo": true,
+    "ingredients": [
+      {"reference_id": "6-chai-nuoc-khoang-vinh-hao-500ml-gia-tot-tai-bach-hoa-xanh", "name": "Nước khoáng Vĩnh Hảo"},
+      {"reference_id": "nuoc-tang-luc-sting-vang-loc-6-lon-330ml", "name": "Sting vàng"}
+    ],
+    "allergens": [],
+    "instructions": ["Ướp lạnh trước 1 giờ, uống xen kẽ mỗi khi cần giải nhiệt."]
+  },
+  {
+    "id": "tieccuoi-tuan-giai-khat",
+    "name": "Tiệc cuối tuần giải khát",
+    "description": "Bộ ba Pepsi - 7Up - Dasani cho những buổi tụ họp gia đình hoặc team building.",
+    "tags": ["gia đình", "party"],
+    "diet": ["flex"],
+    "prep_time": 10,
+    "budget": 320000,
+    "popularity": 0.85,
+    "freshness": 0.7,
+    "promo": false,
+    "ingredients": [
+      {"reference_id": "thung-pepsi-pet-24chai", "name": "Pepsi PET"},
+      {"reference_id": "6-lon-nuoc-ngot-soda-chanh-7-up-320ml", "name": "7Up"},
+      {"reference_id": "nuoc-suoi-khoang/24-chai-nuoc-tinh-khiet-dasani-500ml", "name": "Dasani"}
+    ],
+    "allergens": [],
+    "instructions": ["Ướp lạnh toàn bộ trước khi dùng, chuẩn bị thêm đá viên."]
+  }
+]

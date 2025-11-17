@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from "react"
 import { IoPaperPlane, IoSparkles } from "react-icons/io5"
 import { MdFastfood, MdOutlineTipsAndUpdates } from "react-icons/md"
-import { FaRegSmileBeam } from "react-icons/fa"
+import { FaCheckCircle } from "react-icons/fa"
+import toast from "react-hot-toast"
 import Axios from "../utils/Axios"
 import SummaryApi from "../common/SummaryApi"
 import Loading from "../components/Loading"
@@ -25,6 +26,8 @@ const MealAdvisor = () => {
   ])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
+  const [lastQuery, setLastQuery] = useState("")
+  const [feedbackStatus, setFeedbackStatus] = useState({})
   const chatEndRef = useRef(null)
   const navigate = useNavigate()
 
@@ -34,6 +37,7 @@ const MealAdvisor = () => {
     if (!trimmed || isLoading) return
 
     setMessages((prev) => [...prev, { role: "user", content: trimmed }])
+    setLastQuery(trimmed)
     setInput("")
     setIsLoading(true)
 
@@ -75,6 +79,7 @@ const MealAdvisor = () => {
             "Không gửi được yêu cầu. Bạn kiểm tra kết nối hoặc thử lại sau nhé."
         }
       ])
+      toast.error("Không gọi được trợ lý món ăn.")
     } finally {
       setIsLoading(false)
     }
@@ -101,8 +106,37 @@ const MealAdvisor = () => {
       .flatMap((msg) => msg.suggestions || [])
   }, [messages])
 
-  const handleExploreIngredients = (name) => {
-    navigate("/search", { state: { keyword: name } })
+  const handleExploreIngredients = (keyword) => {
+    if (!keyword) return
+    navigate("/search", { state: { keyword } })
+  }
+
+  const handleFeedback = async (suggestion) => {
+    const recipeId = suggestion?.dishId || suggestion?.dishName
+    if (!recipeId || feedbackStatus[recipeId] === "sent") return
+
+    setFeedbackStatus((prev) => ({ ...prev, [recipeId]: "loading" }))
+    try {
+      await Axios({
+        ...SummaryApi.mealAdvisorFeedback,
+        data: {
+          query: lastQuery,
+          chosenRecipeId: recipeId,
+          rating: 5
+        }
+      })
+      setFeedbackStatus((prev) => ({ ...prev, [recipeId]: "sent" }))
+      toast.success("Cảm ơn phản hồi của bạn!")
+    } catch (error) {
+      console.error(error)
+      toast.error("Không gửi được phản hồi.")
+      setFeedbackStatus((prev) => ({ ...prev, [recipeId]: "error" }))
+    }
+  }
+
+  const formatCurrency = (value) => {
+    if (!value) return null
+    return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(value)
   }
 
   return (
@@ -200,55 +234,63 @@ const MealAdvisor = () => {
             <div className="grid gap-3 lg:grid-cols-2">
               {suggestionCards.map((item) => (
                 <div
-                  key={item.id}
+                  key={item.dishId || item.dishName}
                   className="flex flex-col gap-2 rounded-xl border border-yellow-100 bg-yellow-50/70 p-3 text-sm text-neutral-700 shadow-sm"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <h3 className="text-base font-semibold text-neutral-900">
-                      {item.name}
+                      {item.dishName || item.name}
                     </h3>
-                    <span className="rounded-full bg-white px-2 py-0.5 text-xs text-neutral-500">
-                      {item.cookingTime} phút
-                    </span>
+                    {item.prepTime ? (
+                      <span className="rounded-full bg-white px-2 py-0.5 text-xs text-neutral-500">
+                        {item.prepTime} phút
+                      </span>
+                    ) : null}
                   </div>
                   <p>{item.description}</p>
-                  <div className="flex flex-wrap gap-1 text-xs text-yellow-700">
-                    {item.tags?.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full bg-white/80 px-2 py-0.5"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                  </div>
-                  <div>
-                    <p className="font-medium text-neutral-800">Nguyên liệu:</p>
-                    <ul className="ml-4 list-disc text-neutral-600">
-                      {item.ingredients.slice(0, 4).map((ingredient) => (
-                        <li key={ingredient}>{ingredient}</li>
-                      ))}
-                      {item.ingredients.length > 4 && <li>...</li>}
-                    </ul>
-                  </div>
-                  {item.tips && (
-                    <div className="flex items-start gap-2 rounded-lg bg-white/70 p-2 text-xs text-neutral-600">
-                      <FaRegSmileBeam className="mt-0.5 shrink-0 text-yellow-600" />
-                      <span>{item.tips}</span>
+                  {item.products?.length > 0 && (
+                    <div>
+                      <p className="font-medium text-neutral-800">Gợi ý mua kèm:</p>
+                      <ul className="ml-4 list-disc text-neutral-600">
+                        {item.products.slice(0, 4).map((product) => (
+                          <li key={product.referenceId}>
+                            <span className="font-semibold text-neutral-800">
+                              {product.name || product.referenceId}
+                            </span>
+                            {product.reason && (
+                              <span className="text-neutral-500"> – {product.reason}</span>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )}
                   <div className="flex flex-wrap items-center gap-2 text-xs text-neutral-500">
-                    <span>Độ khó: {item.difficulty}</span>
-                    {item.nutrition?.calories && (
-                      <span>~ {item.nutrition.calories} kcal</span>
+                    {item.estimatedBudget && (
+                      <span>Ước tính: {formatCurrency(item.estimatedBudget)}</span>
+                    )}
+                    {typeof item.score === "number" && (
+                      <span>Điểm phù hợp: {(item.score * 100).toFixed(0)}%</span>
                     )}
                   </div>
-                  <button
-                    onClick={() => handleExploreIngredients(item.name)}
-                    className="mt-1 rounded-lg bg-primary-200 px-3 py-2 text-sm font-medium text-white transition hover:bg-primary-300"
-                  >
-                    Tìm nguyên liệu trong SmartShop
-                  </button>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      onClick={() => handleExploreIngredients(item.products?.[0]?.name || item.dishName)}
+                      className="mt-1 rounded-lg bg-primary-200 px-3 py-2 text-sm font-medium text-white transition hover:bg-primary-300"
+                    >
+                      Tìm sản phẩm liên quan
+                    </button>
+                    <button
+                      onClick={() => handleFeedback(item)}
+                      className="mt-1 flex items-center gap-1 rounded-lg bg-green-50 px-3 py-2 text-sm font-medium text-green-700 transition hover:bg-green-100"
+                      disabled={feedbackStatus[item.dishId || item.dishName] === "sent"}
+                    >
+                      <FaCheckCircle />
+                      {feedbackStatus[item.dishId || item.dishName] === "sent"
+                        ? "Đã phản hồi"
+                        : "Gợi ý hữu ích"}
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

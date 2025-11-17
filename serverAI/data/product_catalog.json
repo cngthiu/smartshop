@@ -706,6 +706,105 @@
         "aqua-330ml/aqua_3.jpeg",
         "aqua-330ml/aqua_4.jpeg"
       ]
+    },
+    {
+      "reference_id": "uc-ga-ta-1kg",
+      "reference_image": [],
+      "name": "Ức gà ta 1kg",
+      "category": "Thịt, cá, trứng",
+      "subCategory": "Gia cầm",
+      "unit": "1 kg",
+      "price": 120000,
+      "description": "Ức gà ta tươi, thích hợp chế biến món áp chảo, xào hoặc salad.",
+      "image": []
+    },
+    {
+      "reference_id": "sa-cay-50g",
+      "reference_image": [],
+      "name": "Sả cây 50g",
+      "category": "Rau, củ, nấm, trái cây",
+      "subCategory": "Rau gia vị",
+      "unit": "1 bó",
+      "price": 8000,
+      "description": "Sả cây tươi, hương thơm mạnh, dùng cho món kho, xào.",
+      "image": []
+    },
+    {
+      "reference_id": "ot-hiem-20g",
+      "reference_image": [],
+      "name": "Ớt hiểm 20g",
+      "category": "Rau, củ, nấm, trái cây",
+      "subCategory": "Rau gia vị",
+      "unit": "1 gói",
+      "price": 5000,
+      "description": "Ớt hiểm cay nồng phù hợp cho các món xào, lẩu.",
+      "image": []
+    },
+    {
+      "reference_id": "ca-chua-vietgap-500g",
+      "reference_image": [],
+      "name": "Cà chua VietGAP 500g",
+      "category": "Rau, củ, nấm, trái cây",
+      "subCategory": "Rau củ",
+      "unit": "500 g",
+      "price": 32000,
+      "description": "Cà chua đạt chuẩn VietGAP dùng cho salad, nước ép.",
+      "image": []
+    },
+    {
+      "reference_id": "rau-xa-lach-300g",
+      "reference_image": [],
+      "name": "Rau xà lách 300g",
+      "category": "Rau, củ, nấm, trái cây",
+      "subCategory": "Rau ăn lá",
+      "unit": "300 g",
+      "price": 28000,
+      "description": "Xà lách giòn ngọt, thích hợp làm salad hoặc ăn kèm món nướng.",
+      "image": []
+    },
+    {
+      "reference_id": "pho-mai-mozerella-200g",
+      "reference_image": [],
+      "name": "Phô mai Mozzarella 200g",
+      "category": "Sữa các loại",
+      "subCategory": "Phô mai",
+      "unit": "200 g",
+      "price": 78000,
+      "description": "Phô mai mozzarella mềm dẻo, dùng cho salad hoặc pizza.",
+      "image": []
+    },
+    {
+      "reference_id": "tao-xanh-my-1kg",
+      "reference_image": [],
+      "name": "Táo xanh Mỹ 1kg",
+      "category": "Rau, củ, nấm, trái cây",
+      "subCategory": "Trái cây",
+      "unit": "1 kg",
+      "price": 95000,
+      "description": "Táo xanh giòn ngọt, dùng ăn tráng miệng hoặc nước ép.",
+      "image": []
+    },
+    {
+      "reference_id": "kale-huu-co-300g",
+      "reference_image": [],
+      "name": "Cải kale hữu cơ 300g",
+      "category": "Rau, củ, nấm, trái cây",
+      "subCategory": "Rau ăn lá",
+      "unit": "300 g",
+      "price": 42000,
+      "description": "Kale hữu cơ, giàu vitamin, thích hợp làm sinh tố hoặc salad.",
+      "image": []
+    },
+    {
+      "reference_id": "chanh-vang-100g",
+      "reference_image": [],
+      "name": "Chanh vàng 100g",
+      "category": "Rau, củ, nấm, trái cây",
+      "subCategory": "Rau gia vị",
+      "unit": "100 g",
+      "price": 12000,
+      "description": "Chanh vàng thơm, dùng pha nước uống hoặc ướp thực phẩm.",
+      "image": []
     }
   ]
 }
